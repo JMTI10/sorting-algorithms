@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8" />
+  <title>Pathfinding Visualizer</title>
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+  <h1>Pathfinding Visualizer</h1>
+
+  <div class="controls">
+    <button onclick="runBFS()">BFS</button>
+    <button onclick="runDFS()">DFS</button>
+    <button onclick="runDijkstra()">Dijkstra</button>
+    <button onclick="runAStar()">A*</button>
+    <button onclick="randomWalls()">Random Walls</button>
+    <button onclick="clearWalls()">Clear Walls</button>
+  </div>
+  
+  <!-- Add your speed slider below, for example -->
+  <div class="speed-control">
+    <label for="speedSlider">Animation Speed (ms/step):</label>
+    <input
+      type="range"
+      id="speedSlider"
+      min="1"
+      max="100"
+      value="20"
+      oninput="updateSpeed()"
+    >
+    <span id="speedValue">20</span>
+  </div>
+  
+
+  
+
+  <!-- Stats Display -->
+  <div class="stats">
+    <p>Visited Cells: <span id="visitedCount">0</span></p>
+    <p>Path Length: <span id="pathLength">0</span></p>
+  </div>
+
+  <!-- Grid container -->
+  <div id="grid"></div>
+
+  <!-- Add this to show or hide a heuristic overlay -->
+  <label>
+    <input type="checkbox" id="showHeuristicCheckbox" />
+    Show A* Heuristic Values
+  </label>
+  <p>Algorithm Runtime: <span id="algoTime">0</span> ms</p>
+
+
+  
+
+  <script src="app.js"></script>
+</body>
+</html>
