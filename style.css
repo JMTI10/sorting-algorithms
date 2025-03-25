@@ -91,13 +91,18 @@ button:active {
 }
 
 .cell.start {
-  background-color: #4caf50;
+  background-color: #4caf50 !important;
 }
 
 .cell.end {
-  background-color: #f44336;
+  background-color: #f44336 !important;
 }
 
+.cell.start,
+.cell.end {
+  z-index: 2;
+  position: relative;
+}
 .cell.wall {
   background-color: #2e2e2e;
 }
@@ -259,8 +264,28 @@ body.dark .cell .overlay {
 
 .footer-options {
   display: flex;
+  align-items: center;
   justify-content: center;
   gap: 2rem;
   flex-wrap: wrap;
   margin-top: 1rem;
+  font-size: 1rem;
+  line-height: 1;
+}
+
+.footer-options p {
+  position: relative;
+  top: -7px;
+}
+
+.footer-options label {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  line-height: 1;
+}
+
+.footer-options input[type="checkbox"] {
+  width: 16px;
+  height: 16px;
 }
