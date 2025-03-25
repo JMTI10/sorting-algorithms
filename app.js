@@ -12,11 +12,8 @@ const pathLengthEl = document.getElementById('pathLength');
 const showHeuristicCheckbox = document.getElementById('showHeuristicCheckbox');
 
 // A span to display algorithm time
-// <span id="algoTime">0</span> in your HTML
-// We update it with showAlgorithmTime(timeMs)
 function showAlgorithmTime(timeInMs) {
   const timeEl = document.getElementById('algoTime');
-  // Display to 2 decimals for neatness
   timeEl.textContent = timeInMs.toFixed(2);
 }
 
@@ -24,8 +21,7 @@ function toggleDarkMode() {
   document.body.classList.toggle('dark');
 }
 
-// Let the user control speed via a slider
-let animationSpeed = 20; // default
+let animationSpeed = 20;
 function updateSpeed() {
   const slider = document.getElementById('speedSlider');
   animationSpeed = parseInt(slider.value, 10);
@@ -36,46 +32,68 @@ function updateSpeed() {
 for (let r = 0; r < rows; r++) {
   const row = [];
   for (let c = 0; c < cols; c++) {
-    // Create cell DOM element
     const cell = document.createElement('div');
     cell.classList.add('cell');
     cell.id = `cell-${r}-${c}`;
 
-    // For A* overlay (heuristic or fScore)
     const overlayDiv = document.createElement('div');
     overlayDiv.classList.add('overlay');
     cell.appendChild(overlayDiv);
 
-    // Toggle walls on click
     cell.addEventListener('click', () => {
       toggleWall(r, c);
     });
 
     gridContainer.appendChild(cell);
 
-    // Store data
     row.push({
       row: r,
       col: c,
       isWall: false,
       isVisited: false,
       isFrontier: false,
-      distance: Infinity, // used by Dijkstra
-      fScore: Infinity,   // used by A*
-      gScore: Infinity,   // used by A*
+      distance: Infinity,
+      fScore: Infinity,
+      gScore: Infinity,
       previous: null
     });
   }
   grid.push(row);
 }
 
-// Define start/end positions
+// Define start position
 const startPos = { row: 0, col: 0 };
-const endPos = { row: rows - 1, col: cols - 1 };
+let endPos = { row: rows - 1, col: cols - 1 }; // Default bottom right
 
 // Mark them visually
-document.getElementById(`cell-${startPos.row}-${startPos.col}`).classList.add('start');
-document.getElementById(`cell-${endPos.row}-${endPos.col}`).classList.add('end');
+function placeStartEnd() {
+  document.querySelectorAll('.start').forEach(e => e.classList.remove('start'));
+  document.querySelectorAll('.end').forEach(e => e.classList.remove('end'));
+  document.getElementById(`cell-${startPos.row}-${startPos.col}`).classList.add('start');
+  document.getElementById(`cell-${endPos.row}-${endPos.col}`).classList.add('end');
+}
+
+// Call initially to place them
+placeStartEnd();
+
+// Button to randomize end position
+const changeButton = document.createElement('button');
+changeButton.textContent = 'Randomize End Position';
+changeButton.style.marginBottom = '1rem';
+changeButton.onclick = () => {
+  let newEnd;
+  do {
+    newEnd = {
+      row: Math.floor(Math.random() * rows),
+      col: Math.floor(Math.random() * cols)
+    };
+  } while (newEnd.row === startPos.row && newEnd.col === startPos.col);
+
+  endPos = newEnd;
+  placeStartEnd();
+};
+
+document.body.insertBefore(changeButton, gridContainer);
 
 /****************************************
  * HELPER FUNCTIONS
