@@ -20,6 +20,10 @@ function showAlgorithmTime(timeInMs) {
   timeEl.textContent = timeInMs.toFixed(2);
 }
 
+function toggleDarkMode() {
+  document.body.classList.toggle('dark');
+}
+
 // Let the user control speed via a slider
 let animationSpeed = 20; // default
 function updateSpeed() {
@@ -467,3 +471,23 @@ function clearWalls() {
     }
   }
 }
+
+// Dark mode preference handling
+window.addEventListener('DOMContentLoaded', () => {
+  const toggle = document.getElementById('darkModeToggle');
+
+  // Set dark mode as default if no preference
+  const savedTheme = localStorage.getItem('theme');
+  if (savedTheme === 'dark' || savedTheme === null) {
+    document.body.classList.add('dark');
+    toggle.checked = true;
+    localStorage.setItem('theme', 'dark');
+  }
+
+  toggle.addEventListener('change', () => {
+    const isDark = toggle.checked;
+    document.body.classList.toggle('dark', isDark);
+    localStorage.setItem('theme', isDark ? 'dark' : 'light');
+  });
+});
+

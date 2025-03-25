@@ -6,18 +6,31 @@
   <link rel="stylesheet" href="style.css" />
 </head>
 <body>
-  <h1>Pathfinding Visualizer</h1>
+  <header class="top-bar">
+    <h1>Pathfinding Visualizer</h1>
 
-  <div class="controls">
-    <button onclick="runBFS()">BFS</button>
-    <button onclick="runDFS()">DFS</button>
-    <button onclick="runDijkstra()">Dijkstra</button>
-    <button onclick="runAStar()">A*</button>
-    <button onclick="randomWalls()">Random Walls</button>
-    <button onclick="clearWalls()">Clear Walls</button>
+    <div class="theme-toggle">
+      <label class="switch">
+        <input type="checkbox" id="darkModeToggle">
+        <span class="slider"></span>
+      </label>
+      <span>Dark Mode</span>
+    </div>
+  </header>
+
+  <div class="toolbar">
+    <div class="algorithm-buttons">
+      <button onclick="runBFS()">BFS</button>
+      <button onclick="runDFS()">DFS</button>
+      <button onclick="runDijkstra()">Dijkstra</button>
+      <button onclick="runAStar()">A*</button>
+    </div>
+    <div class="grid-buttons">
+      <button onclick="randomWalls()">Random Walls</button>
+      <button onclick="clearWalls()">Clear Walls</button>
+    </div>
   </div>
-  
-  <!-- Add your speed slider below, for example -->
+
   <div class="speed-control">
     <label for="speedSlider">Animation Speed (ms/step):</label>
     <input
@@ -30,29 +43,23 @@
     >
     <span id="speedValue">20</span>
   </div>
-  
 
-  
-
-  <!-- Stats Display -->
   <div class="stats">
     <p>Visited Cells: <span id="visitedCount">0</span></p>
     <p>Path Length: <span id="pathLength">0</span></p>
   </div>
 
-  <!-- Grid container -->
   <div id="grid"></div>
 
-  <!-- Add this to show or hide a heuristic overlay -->
-  <label>
-    <input type="checkbox" id="showHeuristicCheckbox" />
-    Show A* Heuristic Values
-  </label>
-  <p>Algorithm Runtime: <span id="algoTime">0</span> ms</p>
-
-
-  
+  <div class="footer-options">
+    <label>
+      <input type="checkbox" id="showHeuristicCheckbox" />
+      Show A* Heuristic Values
+    </label>
+    <p>Algorithm Runtime: <span id="algoTime">0</span> ms</p>
+  </div>
 
   <script src="app.js"></script>
 </body>
+
 </html>
