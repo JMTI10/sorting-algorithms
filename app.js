@@ -142,6 +142,15 @@ function resetGridState() {
   showAlgorithmTime(0); // reset time display at the start
 }
 
+function clearAlgorithmVisuals() {
+  for (let r = 0; r < rows; r++) {
+    for (let c = 0; c < cols; c++) {
+      const cell = document.getElementById(`cell-${r}-${c}`);
+      cell.classList.remove('visited', 'frontier', 'path');
+    }
+  }
+}
+
 function getNeighbors(r, c) {
   const directions = [
     [0, 1], [0, -1], [1, 0], [-1, 0]
@@ -463,14 +472,18 @@ function runAStar() {
 /****************************************
  * EXTRA FEATURES
  ****************************************/
-function randomWalls() {
-  // Randomly toggle walls in ~35% of cells
+function randomWalls(wallProbability = 0.35) {
+  clearAlgorithmVisuals(); // Clear algorithm visuals first
+
   for (let r = 0; r < rows; r++) {
     for (let c = 0; c < cols; c++) {
-      if ((r === startPos.row && c === startPos.col) ||
-          (r === endPos.row && c === endPos.col)) continue;
+      // Skip start and end positions
+      if ((r === startPos.row && c === startPos.col) || (r === endPos.row && c === endPos.col)) {
+        continue;
+      }
 
-      if (Math.random() < 0.35) {
+      // Randomly assign walls
+      if (Math.random() < wallProbability) {
         grid[r][c].isWall = true;
         document.getElementById(`cell-${r}-${c}`).classList.add('wall');
       } else {
@@ -482,12 +495,31 @@ function randomWalls() {
 }
 
 function clearWalls() {
+  clearAlgorithmVisuals(); // Clear algorithm visuals first
   for (let r = 0; r < rows; r++) {
     for (let c = 0; c < cols; c++) {
       grid[r][c].isWall = false;
       document.getElementById(`cell-${r}-${c}`).classList.remove('wall');
     }
   }
+}
+
+function randomizeEndPosition() {
+  clearAlgorithmVisuals(); // Clear algorithm visuals first
+
+  // Remove the current end position
+  const currentEndCell = document.querySelector('.cell.end');
+  if (currentEndCell) {
+    currentEndCell.classList.remove('end');
+  }
+
+  // Randomly select a new end position
+  const newEndRow = Math.floor(Math.random() * rows);
+  const newEndCol = Math.floor(Math.random() * cols);
+
+  // Set the new end position
+  endPos = { row: newEndRow, col: newEndCol };
+  document.getElementById(`cell-${newEndRow}-${newEndCol}`).classList.add('end');
 }
 
 // Dark mode preference handling
